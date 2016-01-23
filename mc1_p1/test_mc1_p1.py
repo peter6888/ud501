@@ -69,7 +69,7 @@ class PortfolioTestCase(unittest.TestCase):
         symbols = ['GOOG', 'AAPL', 'GLD', 'XOM']
         allocations = [0.2, 0.3, 0.4, 0.1]
         start_val = 1000000
-        risk_free_rate = 1.5
+        risk_free_rate = 0.015
         sample_freq = 252
 
         cr, adr, sddr, sr, ev = assess_portfolio(sd=start_date, ed=end_date, \
@@ -80,7 +80,7 @@ class PortfolioTestCase(unittest.TestCase):
                                                  gen_plot=False)
         print ev
         np.testing.assert_almost_equal(
-            [0.205113938792, 0.00129586924366, 0.00929734619707, -4.00702193247, 1205113.93879],
+            [0.205113938792, 0.00129586924366, 0.00929734619707, 2.11171703734, 1205113.93879],
             [cr, adr, sddr, sr, ev], 5)
 
 
