@@ -18,6 +18,7 @@ class PortfolioTestCase(unittest.TestCase):
                                                  syms=symbols, \
                                                  allocs=allocations, \
                                                  sv=start_val, \
+                                                 rfr=risk_free_rate, \
                                                  gen_plot=False)
         np.testing.assert_almost_equal([0.255646784534, 0.000957366234238, 0.0100104028, 1.51819243641, 1255646.78453],
                                        [cr, adr, sddr, sr, ev], 5)
@@ -35,6 +36,7 @@ class PortfolioTestCase(unittest.TestCase):
                                                  syms=symbols, \
                                                  allocs=allocations, \
                                                  sv=start_val, \
+                                                 rfr=risk_free_rate, \
                                                  gen_plot=False)
         print ev
         np.testing.assert_almost_equal(
@@ -54,11 +56,32 @@ class PortfolioTestCase(unittest.TestCase):
                                                  syms=symbols, \
                                                  allocs=allocations, \
                                                  sv=start_val, \
+                                                 rfr=risk_free_rate, \
                                                  gen_plot=False)
         print ev
         np.testing.assert_almost_equal(
                 [0.205113938792, 0.00129586924366, 0.00929734619707, 2.21259766672, 1205113.93879],
                 [cr, adr, sddr, sr, ev], 5)
+
+    def test_results_nonzero_risk_free_rate(self):
+        start_date = dt.datetime(2010, 6, 1)
+        end_date = dt.datetime(2010, 12, 31)
+        symbols = ['GOOG', 'AAPL', 'GLD', 'XOM']
+        allocations = [0.2, 0.3, 0.4, 0.1]
+        start_val = 1000000
+        risk_free_rate = 1.5
+        sample_freq = 252
+
+        cr, adr, sddr, sr, ev = assess_portfolio(sd=start_date, ed=end_date, \
+                                                 syms=symbols, \
+                                                 allocs=allocations, \
+                                                 sv=start_val, \
+                                                 rfr=risk_free_rate, \
+                                                 gen_plot=False)
+        print ev
+        np.testing.assert_almost_equal(
+            [0.205113938792, 0.00129586924366, 0.00929734619707, -4.00702193247, 1205113.93879],
+            [cr, adr, sddr, sr, ev], 5)
 
 
 if __name__ == '__main__':
