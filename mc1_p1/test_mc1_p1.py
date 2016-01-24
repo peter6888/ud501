@@ -80,7 +80,7 @@ class PortfolioTestCase(unittest.TestCase):
                                                  gen_plot=False)
         print ev
         np.testing.assert_almost_equal(
-            [0.205113938792, 0.00129586924366, 0.00929734619707, 2.11171703734, 1205113.93879],
+            [0.205113938792, 0.00129586924366, 0.00929734619707, -23.3987556107, 1205113.93879],
             [cr, adr, sddr, sr, ev], 5)
 
 
