@@ -107,8 +107,9 @@ def add_test_cases():
                                      v_cr, v_adr, v_sddr, v_sr, v_ev))
 
 
+# Inject our test cases into PortfolioTestCase
+add_test_cases()
+
+# Run Unittest only if we are the main module
 if __name__ == '__main__':
-    # Inject our test cases into PortfolioTestCase
-    add_test_cases()
-    # Run Unittest
     unittest.main()
