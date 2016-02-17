@@ -235,8 +235,47 @@ class Mc2P1Test(unittest.TestCase):
         
         Final Portfolio Value: 1074650.0
         '''
-        
-        
+
+    def test_orders_leverage_3(self):
+        portvals = marketsim.compute_portvals(orders_file = "./orders/orders-leverage-3.csv", start_val=1000000)
+        final_portfolio_value = portvals.ix[-1,:][0]
+        final_portfolio_dataframe_length = len(portvals)
+
+        self.assertAlmostEqual(1050160.0, final_portfolio_value, 4, "Final portfolio value is {} incorrect".format(final_portfolio_value), delta=None)
+        self.assertEqual(141, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect".format(final_portfolio_dataframe_length))
+
+        cum_ret, avg_daily_ret, std_daily_ret, sharpe_ratio = get_portfolio_stats(portvals)
+
+        expected_value = 1.03455887842
+        self.assertAlmostEqual(expected_value, sharpe_ratio[0], 4, "Sharpe ratio {} is incorrect. Expected {}".format(sharpe_ratio[0], expected_value), delta=None)
+
+        expected_value = 0.05016
+        self.assertAlmostEqual(expected_value, cum_ret[0], 4, "Cumulative return {} is incorrect. Expected {}".format(cum_ret[0], expected_value), delta=None)
+
+        expected_value = 0.00560508094997
+        self.assertAlmostEqual(expected_value, std_daily_ret[0], 4, "Standard deviation {} is incorrect. Expected {}".format(std_daily_ret[0], expected_value), delta=None)
+
+        expected_value = 0.000365289198877
+        self.assertAlmostEqual(expected_value, avg_daily_ret[0], 4, "Avg dailt return {} is incorrect. Expected".format(avg_daily_ret[0], expected_value), delta=None)
+
+        '''
+        Data Range: 2011-01-10 to 2011-08-01
+
+        Sharpe Ratio of Fund: 1.03455887842
+        Sharpe Ratio of $SPX: 0.247809335326
+
+        Cumulative Return of Fund: 0.05016
+        Cumulative Return of $SPX: 0.0135380980508
+
+        Standard Deviation of Fund: 0.00560508094997
+        Standard Deviation of $SPX: 0.00840618502785
+
+        Average Daily Return of Fund: 0.000365289198877
+        Average Daily Return of $SPX: 0.000131224926273
+
+        Final Portfolio Value: 1050160.0
+        '''
+
+
 if __name__ == '__main__':
     unittest.main()
-
