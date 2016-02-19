@@ -1,5 +1,3 @@
-__author__ = 'lauradhamilton'
-
 import unittest
 import datetime as dt
 import marketsim
