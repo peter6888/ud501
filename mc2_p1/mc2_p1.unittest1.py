@@ -11,9 +11,12 @@ class Mc2P1Test(unittest.TestCase):
         final_portfolio_value = portvals.ix[-1,:][0]
         final_portfolio_dataframe_length = len(portvals) 
 
-        self.assertAlmostEqual(998035.0, final_portfolio_value, 4, "Final portfolio value {} is incorrect".format(final_portfolio_value), delta=None)
-        self.assertEqual(11, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect".format(final_portfolio_dataframe_length))
+        expected_value = 998035.0
+        self.assertAlmostEqual(expected_value, final_portfolio_value, 4, "Final portfolio value is {} incorrect. Expected {}".format(final_portfolio_value, expected_value), delta=None)
         
+        expected_value = 11
+        self.assertEqual(expected_value, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect. Expected {}".format(final_portfolio_dataframe_length, expected_value))
+
         cum_ret, avg_daily_ret, std_daily_ret, sharpe_ratio = get_portfolio_stats(portvals)
         
         expected_value = -0.446948390642
@@ -49,9 +52,12 @@ class Mc2P1Test(unittest.TestCase):
         final_portfolio_value = portvals.ix[-1,:][0]
         final_portfolio_dataframe_length = len(portvals)
 
-        self.assertAlmostEqual(1133860.0, final_portfolio_value, 4, "Final portfolio value {} is incorrect".format(final_portfolio_value), delta=None)
-        self.assertEqual(240, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect".format(final_portfolio_dataframe_length))
+        expected_value = 1133860.0
+        self.assertAlmostEqual(expected_value, final_portfolio_value, 4, "Final portfolio value is {} incorrect. Expected {}".format(final_portfolio_value, expected_value), delta=None)
         
+        expected_value = 240
+        self.assertEqual(expected_value, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect. Expected {}".format(final_portfolio_dataframe_length, expected_value))
+
         cum_ret, avg_daily_ret, std_daily_ret, sharpe_ratio = get_portfolio_stats(portvals)
         
         expected_value = 1.21540888742
@@ -87,8 +93,11 @@ class Mc2P1Test(unittest.TestCase):
         final_portfolio_value = portvals.ix[-1,:][0]
         final_portfolio_dataframe_length = len(portvals)
 
-        self.assertAlmostEqual(1078752.6, final_portfolio_value, 4, "Final portfolio value {} is incorrect".format(final_portfolio_value), delta=None)
-        self.assertEqual(232, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect".format(final_portfolio_dataframe_length))
+        expected_value = 1078752.6
+        self.assertAlmostEqual(expected_value, final_portfolio_value, 4, "Final portfolio value is {} incorrect. Expected {}".format(final_portfolio_value, expected_value), delta=None)
+        
+        expected_value = 232
+        self.assertEqual(expected_value, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect. Expected {}".format(final_portfolio_dataframe_length, expected_value))
 
         cum_ret, avg_daily_ret, std_daily_ret, sharpe_ratio = get_portfolio_stats(portvals)
         
@@ -125,12 +134,14 @@ class Mc2P1Test(unittest.TestCase):
         final_portfolio_value = portvals.ix[-1,:][0]
         final_portfolio_dataframe_length = len(portvals)
 
-        self.assertAlmostEqual(1050160.0, final_portfolio_value, 4, "Final portfolio value {} is incorrect".format(final_portfolio_value), delta=None)
-        self.assertEqual(141, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect".format(final_portfolio_dataframe_length))
+        expected_value = 1050160.0
+        self.assertAlmostEqual(expected_value, final_portfolio_value, 4, "Final portfolio value is {} incorrect. Expected {}".format(final_portfolio_value, expected_value), delta=None)
+        
+        expected_value = 141
+        self.assertEqual(expected_value, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect. Expected {}".format(final_portfolio_dataframe_length, expected_value))
 
         cum_ret, avg_daily_ret, std_daily_ret, sharpe_ratio = get_portfolio_stats(portvals)
         
-        # TODO: Fails
         expected_value = 1.03455887842
         self.assertAlmostEqual(expected_value, sharpe_ratio[0], 4, "Sharpe ratio {} is incorrect. Expected {}".format(sharpe_ratio[0], expected_value), delta=None)
         
@@ -165,9 +176,12 @@ class Mc2P1Test(unittest.TestCase):
         final_portfolio_value = portvals.ix[-1,:][0]
         final_portfolio_dataframe_length = len(portvals)
 
-        self.assertAlmostEqual(1050160.0, final_portfolio_value, 4, "Final portfolio value is {} incorrect".format(final_portfolio_value), delta=None)
-        self.assertEqual(106, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect".format(final_portfolio_dataframe_length))
+        expected_value = 1050160.0
+        self.assertAlmostEqual(expected_value, final_portfolio_value, 4, "Final portfolio value is {} incorrect. Expected {}".format(final_portfolio_value, expected_value), delta=None)
         
+        expected_value = 106
+        self.assertEqual(expected_value, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect. Expected {}".format(final_portfolio_dataframe_length, expected_value))
+
         cum_ret, avg_daily_ret, std_daily_ret, sharpe_ratio = get_portfolio_stats(portvals)
         
         expected_value = 1.19402406143
@@ -202,10 +216,13 @@ class Mc2P1Test(unittest.TestCase):
         portvals = marketsim.compute_portvals(orders_file = "./orders/orders-leverage-2.csv", start_val=1000000)
         final_portfolio_value = portvals.ix[-1,:][0]
         final_portfolio_dataframe_length = len(portvals)
-
-        self.assertAlmostEqual(1074650.0, final_portfolio_value, 4, "Final portfolio value is {} incorrect".format(final_portfolio_value), delta=None)
-        self.assertEqual(37, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect".format(final_portfolio_dataframe_length))
         
+        expected_value = 1074650.0
+        self.assertAlmostEqual(expected_value, final_portfolio_value, 4, "Final portfolio value is {} incorrect. Expected {}".format(final_portfolio_value, expected_value), delta=None)
+        
+        expected_value = 37
+        self.assertEqual(expected_value, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect. Expected {}".format(final_portfolio_dataframe_length, expected_value))
+
         cum_ret, avg_daily_ret, std_daily_ret, sharpe_ratio = get_portfolio_stats(portvals)
         
         expected_value = 4.92529481246
@@ -241,9 +258,12 @@ class Mc2P1Test(unittest.TestCase):
         final_portfolio_value = portvals.ix[-1,:][0]
         final_portfolio_dataframe_length = len(portvals)
 
-        self.assertAlmostEqual(1050160.0, final_portfolio_value, 4, "Final portfolio value is {} incorrect".format(final_portfolio_value), delta=None)
-        self.assertEqual(141, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect".format(final_portfolio_dataframe_length))
-
+        expected_value = 1050160.0
+        self.assertAlmostEqual(expected_value, final_portfolio_value, 4, "Final portfolio value is {} incorrect. Expected {}".format(final_portfolio_value, expected_value), delta=None)
+        
+        expected_value = 141
+        self.assertEqual(expected_value, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect. Expected {}".format(final_portfolio_dataframe_length, expected_value))
+        
         cum_ret, avg_daily_ret, std_daily_ret, sharpe_ratio = get_portfolio_stats(portvals)
 
         expected_value = 1.03455887842
@@ -274,6 +294,40 @@ class Mc2P1Test(unittest.TestCase):
         Average Daily Return of $SPX: 0.000131224926273
 
         Final Portfolio Value: 1050160.0
+        '''
+
+    def test_orders_leverage_4(self):
+        portvals = marketsim.compute_portvals(orders_file = "./orders/orders-leverage-4.csv", start_val=1000000)
+        final_portfolio_value = portvals.ix[-1,:][0]
+        final_portfolio_dataframe_length = len(portvals)
+
+        expected_value = 998035.0
+        self.assertAlmostEqual(expected_value, final_portfolio_value, 4, "Final portfolio value is {} incorrect. Expected {}".format(final_portfolio_value, expected_value), delta=None)
+        
+        expected_value = 11
+        self.assertEqual(expected_value, final_portfolio_dataframe_length, "Final portfolio dataframe length {} is incorrect. Expected {}".format(final_portfolio_dataframe_length, expected_value))
+
+        cum_ret, avg_daily_ret, std_daily_ret, sharpe_ratio = get_portfolio_stats(portvals)
+
+        expected_value = -0.446948390642
+        self.assertAlmostEqual(expected_value, sharpe_ratio[0], 4, "Sharpe ratio {} is incorrect. Expected {}".format(sharpe_ratio[0], expected_value), delta=None)
+
+        expected_value = -0.001965
+        self.assertAlmostEqual(expected_value, cum_ret[0], 4, "Cumulative return {} is incorrect. Expected {}".format(cum_ret[0], expected_value), delta=None)
+
+        expected_value = 0.00634128215394
+        self.assertAlmostEqual(expected_value, std_daily_ret[0], 4, "Standard deviation {} is incorrect. Expected {}".format(std_daily_ret[0], expected_value), delta=None)
+
+        expected_value = -0.000178539446839
+        self.assertAlmostEqual(expected_value, avg_daily_ret[0], 4, "Avg dailt return {} is incorrect. Expected".format(avg_daily_ret[0], expected_value), delta=None)
+
+        '''
+        Date Range: 2011-01-05 00:00:00 to 2011-01-20 00:00:00
+        Sharpe Ratio of Fund: -0.446948390642
+        Cumulative Return of Fund: -0.001965
+        Standard Deviation of Fund: 0.00634128215394
+        Average Daily Return of Fund: -0.000178539446839
+        Final Portfolio Value: 998035.0
         '''
 
 
