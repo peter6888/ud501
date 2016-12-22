@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import unittest
 import numpy as np
+from stocks import stocks
+from datetime import datetime
 
 class UdaCity_MLT(unittest.TestCase):
 
@@ -33,5 +35,23 @@ class UdaCity_MLT(unittest.TestCase):
         print('for a = {} max(a)=a[{}]={}'.format(a, a.argmax(), a.max()))
         print('a.size={}'.format(a.size))
         print('a slice [:5] = {}'.format(a[:5]))
+
+    def test_incompletdata_01_05(self):
+        s = stocks()
+        s.get_data('JAMN', start=datetime(2005,12,31), end=datetime(2014,12,07))
+        spy = s.get_data('SPY')
+        print('-----------------')
+        print(spy)
+        pass
+
+    def test_plot_spy(self):
+        s = stocks()
+        spydata = s.get_data('SPY')
+        print(type(spydata))
+        spydata.plot()
+        plt.show()
+
+
+
 
     

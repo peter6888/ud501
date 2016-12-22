@@ -56,21 +56,21 @@ def get_bollinger_bands(rm, rstd):
 def test_run():
     # Read data
     dates = pd.date_range('2012-01-01', '2012-12-31')
-    symbols = ['SPY']
+    symbols = ['spy']
     df = get_data(symbols, dates)
 
     # Compute Bollinger Bands
     # 1. Compute rolling mean
-    rm_SPY = get_rolling_mean(df['SPY'], window=20)
+    rm_SPY = get_rolling_mean(df['spy'], window=20)
 
     # 2. Compute rolling standard deviation
-    rstd_SPY = get_rolling_std(df['SPY'], window=20)
+    rstd_SPY = get_rolling_std(df['spy'], window=20)
 
     # 3. Compute upper and lower bands
     upper_band, lower_band = get_bollinger_bands(rm_SPY, rstd_SPY)
 
     # Plot raw SPY values, rolling mean and Bollinger Bands
-    ax = df['SPY'].plot(title="Bollinger Bands", label='SPY')
+    ax = df['spy'].plot(title="Bollinger Bands", label='spy')
     rm_SPY.plot(label='Rolling mean', ax=ax)
     upper_band.plot(label='upper band', ax=ax)
     lower_band.plot(label='lower band', ax=ax)
