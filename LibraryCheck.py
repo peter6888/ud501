@@ -20,3 +20,13 @@ class LibraryCheck(unittest.TestCase):
         s = np.sin(2 * np.pi * t)
         plt.plot(t, s)
         plt.show()
+
+    def test_pandas_datareader(self):
+        """
+        http://stackoverflow.com/questions/12433076/download-history-stock-prices-automatically-from-yahoo-finance-in-python/12510334#12510334
+        :return:
+        """
+        from pandas_datareader import data
+        from datetime import datetime
+        ibm = data.get_data_yahoo(symbols='ibm', start=datetime(2000,1,1), end=datetime(2012,1,1))
+        self.assertTrue(len(ibm) > 2)
