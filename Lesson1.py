@@ -47,11 +47,18 @@ class UdaCity_MLT(unittest.TestCase):
     def test_plot_spy(self):
         s = stocks()
         spydata = s.get_data('SPY')
-        print(type(spydata))
+        #print(type(spydata))
+        print(spydata.axes)
+        #spydata.plot()
+        #plt.show()
+        dates = pd.date_range('2012-01-01', '2012-12-31')
+        df = pd.DataFrame(index=dates)
+        print(df.axes)
+        spydata.rename(columns={'Adj Close':'SPY'})
+        df.join(spydata)
+        spydata.to_csv('data/{}.csv'.format('SPY'))
         spydata.plot()
         plt.show()
-
-
 
 
     
