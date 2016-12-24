@@ -60,5 +60,49 @@ class UdaCity_MLT(unittest.TestCase):
         spydata.plot()
         plt.show()
 
+    def test_1_6(self):
+        daily_returns = self.get_daily_returns()
+        self.plot_data(daily_returns, title='Daily returns') #, ylabel='Daily returns')
 
+        daily_returns.hist(bins=20)
+        plt.show()
+
+        daily_returns['SPY'].hist(bins=20, label='SPY')
+        daily_returns['XOM'].hist(bins=20, label='XOM')
+        daily_returns['GLD'].hist(bins=20, label='GLD')
+        plt.legend(loc='upper right')
+        plt.show()
+
+    def test_1_6_scatterplots(self):
+        daily_returns = self.get_daily_returns()
+        daily_returns.plot(kind='scatter', x='SPY', y='XOM')
+        beta_XOM, alpha_XOM = np.polyfit(daily_returns['SPY'], daily_returns['XOM'], 1)
+        plt.plot(daily_returns['SPY'], beta_XOM * daily_returns['SPY'] + alpha_XOM, '-', color='r')
+        plt.show()
+
+    def plot_data(self, df, title="Stock prices"):
+        """Plot stock prices with a custom title and meaningful axis labels."""
+        ax = df.plot(title=title, fontsize=12)
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Price")
+        plt.show()
+
+    def compute_daily_returns(self, df):
+        """
+        compute daily returns
+        :param df:
+        :return:
+        """
+        daily_returns = df.copy()
+        daily_returns[1:] = (df[1:] / df[:-1].values) - 1
+        daily_returns.ix[0, :] = 0 # set daily returns for row 0 to 0
+        return daily_returns
+
+    def get_daily_returns(self):
+        s = stocks()
+        dates = pd.date_range('2009-01-01', '2012-12-31')
+        symbols = ['SPY', 'XOM', 'GLD']
+        df = s.get_datas(symbols,dates)
+        #self.plot_data(df)
+        return self.compute_daily_returns(df)
     

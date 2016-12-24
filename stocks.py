@@ -4,6 +4,7 @@ stocks.py - cached stock prices
 import os
 from pandas_datareader import data
 from datetime import datetime
+import pandas as pd
 
 class stocks(object):
     def __init__(self):
@@ -29,6 +30,23 @@ class stocks(object):
         data = self.get_data(symbol, start, end)
         data.to_csv(self.symbol_to_path(symbol))
         return data
+
+    def get_datas(self, symbols, dates):
+        """Read stock data (adjusted close) for given symbols from CSV files."""
+        df = pd.DataFrame(index=dates)
+        if 'SPY' not in symbols:  # add SPY for reference, if absent
+            symbols.insert(0, 'SPY')
+
+        for symbol in symbols:
+            if not os.path.isfile(self.symbol_to_path(symbol)):
+                self.get_data_to_csv(symbol)
+            df_temp = pd.read_csv(self.symbol_to_path(symbol), index_col='Date',
+                    parse_dates=True, usecols=['Date', 'Adj Close'], na_values=['nan'])
+            df_temp = df_temp.rename(columns={'Adj Close': symbol})
+            df = df.join(df_temp)
+            if symbol == 'SPY':  # drop dates SPY did not trade
+                df = df.dropna(subset=["SPY"])
+        return df
 
     def is_cached(self, symbol):
         return symbol in self.cached_symbols

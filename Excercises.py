@@ -23,6 +23,11 @@ class Excercises(unittest.TestCase):
         s.get_data_to_csv("MSFT")
         self.assertTrue(os.path.isfile(s.symbol_to_path("MSFT")))
 
+    def test_get_cmcm(self):
+        s = stocks()
+        s.get_data('CMCM')
+        self.assertTrue(s.is_cached('CMCM'))
+
     def pullData(self, stock):
         """
         use pandas datareader to read history stock data from yahoo
