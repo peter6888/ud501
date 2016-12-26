@@ -80,6 +80,18 @@ class UdaCity_MLT(unittest.TestCase):
         plt.plot(daily_returns['SPY'], beta_XOM * daily_returns['SPY'] + alpha_XOM, '-', color='r')
         plt.show()
 
+    def test_1_7_exercises(self):
+        #portfolio values, cumulative return, average daily return, sharp_rate
+        allocations = {'SPY':0.4, 'XOM':0.4, 'MSFT':0.1, 'IBM':0.1}
+        buy_date = datetime(2012,1,1)
+        s = stocks()
+        dates = pd.date_range('2012-01-01', '2012-12-20')
+        df = s.get_datas(allocations.keys(), dates)
+        df = df.div(df.ix[0]) #http://stackoverflow.com/questions/12007406/python-pandas-divide-dataframe-by-first-row
+        df = 1000000 * df.multiply([0.4,0.4,0.1,0.1]) #allocations
+        daily_port_vals = df.sum(axis=1)
+        self.plot_data(daily_port_vals)
+
     def plot_data(self, df, title="Stock prices"):
         """Plot stock prices with a custom title and meaningful axis labels."""
         ax = df.plot(title=title, fontsize=12)
