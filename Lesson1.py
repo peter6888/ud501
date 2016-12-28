@@ -28,7 +28,8 @@ class UdaCity_MLT(unittest.TestCase):
         df1=df1.join(ds_spy, how='inner') #left, right, inner, outer
         #df1 = df1.dropna()
         df1.plot()
-        plt.show()
+        import os
+        plt.savefig(os.path.join('output', 'foo.png'))
 
     def test_np(self):
         a = np.random.randint(0,500,10)
