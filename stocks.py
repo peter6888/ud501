@@ -1,5 +1,5 @@
 """
-stocks.py - cached stock prices
+stocks.py - Use pandas_datareader automaticaly download trade data from Yahoo! Finance.
 """
 import os
 from pandas_datareader import data
@@ -13,6 +13,15 @@ class stocks(object):
         self.cache = {}
 
     def get_data(self, symbol, start=datetime(2000,1,1), end=datetime(2016,1,1)):
+        """
+        #usage example
+        s = stocks()
+        spydata = s.get_data('SPY')
+        :param symbol: str
+        :param start: datetime
+        :param end: datetime
+        :return: pandas.DataFrame
+        """
         if symbol in self.cached_symbols:
             return self.cache[symbol]
         self.cache[symbol] = data.get_data_yahoo(symbols=symbol, start=start, end=end)
@@ -32,7 +41,18 @@ class stocks(object):
         return data
 
     def get_datas(self, symbols, dates):
-        """Read stock data (adjusted close) for given symbols from CSV files."""
+        """
+        Read stock data (adjusted close) for given symbols from CSV files.
+        #usage example:
+        allocations = {'SPY':0.4, 'XOM':0.4, 'MSFT':0.1, 'IBM':0.1}
+        s = stocks()
+        dates = pd.date_range('2012-01-01', '2012-12-20')
+        df = s.get_datas(allocations.keys(), dates)
+        :param symbols: list(str)
+        :param dates: pandas.date_range
+        :return: pandas.DataFrame
+        """
+
         df = pd.DataFrame(index=dates)
         if 'SPY' not in symbols:  # add SPY for reference, if absent
             symbols.insert(0, 'SPY')
