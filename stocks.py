@@ -6,11 +6,10 @@ from pandas_datareader import data
 from datetime import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
+from pandas_datareader._utils import RemoteDataError
 
 class stocks(object):
     def __init__(self):
-        #self.cache_size = 5 # cache size
-        self.cached_symbols = set()
         self.cache = {}
 
     def get_data(self, symbol, start=datetime(2000,1,1), end=datetime(2016,1,1)):
@@ -23,11 +22,14 @@ class stocks(object):
         :param end: datetime
         :return: pandas.DataFrame
         """
-        if symbol in self.cached_symbols:
+        if symbol in self.cache:
             return self.cache[symbol]
-        self.cache[symbol] = data.get_data_yahoo(symbols=symbol, start=start, end=end)
-        self.cached_symbols.add(symbol)
-        return self.cache[symbol]
+        try:
+            self.cache[symbol] = data.get_data_yahoo(symbols=symbol, start=start, end=end)
+            return self.cache[symbol]
+        except RemoteDataError:
+            print('Failed when read {}'.format(symbol))
+        return None
 
     def get_data_to_csv(self, symbol, start=datetime(2000,1,1), end=datetime(2016,1,1)):
         """
@@ -38,7 +40,8 @@ class stocks(object):
         :return:
         """
         data = self.get_data(symbol, start, end)
-        data.to_csv(self.symbol_to_path(symbol))
+        if not data.empty:
+            data.to_csv(self.symbol_to_path(symbol))
         return data
 
     def get_datas(self, symbols, dates):
@@ -70,7 +73,7 @@ class stocks(object):
         return df
 
     def is_cached(self, symbol):
-        return symbol in self.cached_symbols
+        return symbol in self.cache
 
     def symbol_to_path(self, symbol, base_dir="data"):
         """Return CSV file path given ticker symbol."""

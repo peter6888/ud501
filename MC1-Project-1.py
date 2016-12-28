@@ -40,26 +40,124 @@ class AssesssPortfolio(unittest.TestCase):
         http://quantsoftware.gatech.edu/MC1-Project-1-Test-Cases-spr2016
         :return: None
         """
-        #test case 01
+        #test case 01 - basic
         (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2010,1,1), ed=dt.datetime(2010,12,31), \
             syms=['GOOG','AAPL','GLD','XOM'], \
             allocs=[0.2,0.3,0.4,0.1], \
             sv=1000000, rfr=0.0, sf=252.0, \
             gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
         (desired_cr, desired_adr, desired_sr) = (0.255646784534, 0.000957366234238, 1.51819243641)
-        self.assertTrue(abs(cr-desired_cr) < 0.001)
+        self.assertTrue(abs(cr-desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
         self.assertTrue(abs(adr-desired_adr) < 0.001, '{} vs {}'.format(adr,desired_adr))
-        self.assertTrue(abs(sr-desired_sr) < 0.01)
-        #test case 02
+        self.assertTrue(abs(sr-desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
+        #test case 02 - One stock
         (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2010,1,1), ed=dt.datetime(2010,12,31), \
             syms=['AXP','HPQ','IBM','HNZ'], \
             allocs=[0.0,0.0,0.0,1.0], \
             sv=1000000, rfr=0.0, sf=252.0, \
             gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
         (desired_cr, desired_adr, desired_sr) = (0.22483215628, 0.000763106152672, 1.44968707121)
         self.assertTrue(abs(cr-desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
         self.assertTrue(abs(adr-desired_adr) < 0.001, '{} vs {}'.format(adr,desired_adr))
         self.assertTrue(abs(sr-desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
+
+        #test case 03 - six month
+        (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2010,6,1), ed=dt.datetime(2010,12,31), \
+            syms=['GOOG','AAPL','GLD','XOM'], \
+            allocs=[0.2,0.3,0.4,0.1], \
+            sv=1000000, rfr=0.0, sf=252.0, \
+            gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
+        (desired_cr, desired_adr, desired_sr) = (0.205113938792, 0.00129586924366, 2.21259766672)
+        self.assertTrue(abs(cr-desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
+        self.assertTrue(abs(adr-desired_adr) < 0.001, '{} vs {}'.format(adr,desired_adr))
+        self.assertTrue(abs(sr-desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
+
+        #test case 04 - different allocations
+        (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2010,1,1), ed=dt.datetime(2010,12,31), \
+            syms=['GOOG','AAPL','GLD','XOM'], \
+            allocs=[0.2,0.4,0.2,0.2], \
+            sv=1000000, rfr=0.0, sf=252.0, \
+            gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
+        (desired_cr, desired_adr, desired_sr) = (0.262285147745, 0.000993303139465, 1.3812384175)
+        self.assertTrue(abs(cr-desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
+        self.assertTrue(abs(adr-desired_adr) < 0.001, '{} vs {}'.format(adr,desired_adr))
+        self.assertTrue(abs(sr-desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
+
+        #test case 05 - Normalization check
+        (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2010,1,1), ed=dt.datetime(2013,05,31), \
+            syms=['AXP','HPQ','IBM','GOOG'], \
+            allocs=[0.3,0.5,0.1,0.1], \
+            sv=1000000, rfr=0.0, sf=252.0, \
+            gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
+        (desired_cr, desired_adr, desired_sr) = (0.138331232843, -6.50814806831e-05, 0.28383368517)
+        self.assertTrue(abs(cr-desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
+        self.assertTrue(abs(adr-desired_adr) < 0.001, '{} vs {}'.format(adr,desired_adr))
+        self.assertTrue(abs(sr-desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
+
+        #test case 06 - One month range
+        (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2010,1,1), ed=dt.datetime(2010,01,31), \
+            syms=['AXP','HPQ','IBM','GOOG'], \
+            allocs=[0.9,0.0,0.1,0.0], \
+            sv=1000000, rfr=0.0, sf=252.0, \
+            gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
+        (desired_cr, desired_adr, desired_sr) = (-0.0758725033871, -0.00411578300489, -2.76341822037)
+        self.assertTrue(abs(cr-desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
+        self.assertTrue(abs(adr-desired_adr) < 0.001, '{} vs {}'.format(adr,desired_adr))
+        self.assertTrue(abs(sr-desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
+
+        #test case 07 - Low Sharpe ratio
+        (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2011,1,1), ed=dt.datetime(2011,12,31), \
+            syms=['WFR','AN','MWW','FSLR'], \
+            allocs=[0.25,0.25,0.25,0.25], \
+            sv=1000000, rfr=0.0, sf=252.0, \
+            gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
+        (desired_cr, desired_adr, desired_sr) = (-0.53245984720788297, -0.0021129359016185834, -1.0598514101147192)
+        self.assertTrue(abs(cr-desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
+        self.assertTrue(abs(adr-desired_adr) < 0.001, '{} vs {}'.format(adr,desired_adr))
+        self.assertTrue(abs(sr-desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
+
+        #test case 08 - All-in-one
+        (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2010,1,1), ed=dt.datetime(2010,12,31), \
+            syms=['AXP','HPQ','IBM','HNZ'], \
+            allocs=[0.0,1.0,0.0,0.0], \
+            sv=1000000, rfr=0.0, sf=252.0, \
+            gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
+        (desired_cr, desired_adr, desired_sr) = (-0.191620333598, -0.000718040989619, -0.71237182415)
+        self.assertTrue(abs(cr-desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
+        self.assertTrue(abs(adr-desired_adr) < 0.001, '{} vs {}'.format(adr,desired_adr))
+        self.assertTrue(abs(sr-desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
+
+        #test case 09 - Mid-year to Mid-year
+        (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2010,6,1), ed=dt.datetime(2011,6,1), \
+            syms=['AAPL','GLD','GOOG','XOM'], \
+            allocs=[0.1,0.4,0.5,0.0], \
+            sv=1000000, rfr=0.0, sf=252.0, \
+            gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
+        (desired_cr, desired_adr, desired_sr) = (0.177352039318, 0.000694756409052, 1.10895144722)
+        self.assertTrue(abs(cr-desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
+        self.assertTrue(abs(adr-desired_adr) < 0.001, '{} vs {}'.format(adr,desired_adr))
+        self.assertTrue(abs(sr-desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
+
+        # test case 10 - Two years
+        (cr, adr, sddr, sr, ev) = self.assess_portfolio(sd=dt.datetime(2006, 1, 3), ed=dt.datetime(2008, 1, 2), \
+                                                        syms=['MMM', 'MO', 'MSFT', 'INTC'], \
+                                                        allocs=[0.0, 0.9, 0.1, 0.0], \
+                                                        sv=1000000, rfr=0.0, sf=252.0, \
+                                                        gen_plot=False)
+        print((cr, adr, sddr, sr, ev))
+        (desired_cr, desired_adr, desired_sr) = (0.43732715979, 0.00076948918955, 1.26449481371)
+        self.assertTrue(abs(cr - desired_cr) < 0.001, '{} vs {}'.format(cr, desired_cr))
+        self.assertTrue(abs(adr - desired_adr) < 0.001, '{} vs {}'.format(adr, desired_adr))
+        self.assertTrue(abs(sr - desired_sr) < 0.01, '{} vs {}'.format(sr, desired_sr))
 
     def assess_portfolio(self, sd, ed, syms, allocs, sv, rfr, sf, gen_plot):
         """
@@ -85,16 +183,15 @@ class AssesssPortfolio(unittest.TestCase):
         df = s.get_datas(syms,dates)
         df = df.div(df.ix[0])
         df = df.multiply([1.0] + allocs)
-        df['portfolio'] = df.sum(axis=1) - df['SPY']
+        df['portfolio'] = df[symbols].sum(axis=1)
         df.drop(symbols, axis=1, inplace=True)
         #s.plot_data(df)
         cr = df['portfolio'][-1] - 1
-        adr = cr / sf
+        adr = cr / len(df)
         df = df * sv
         #s.plot_data(df)
         daily_return = s.compute_daily_returns(df)
-        #s.plot_data(daily_return)
         sddr = daily_return.std()['portfolio']
-        sr = np.sqrt(sf) * (daily_return-rfr)['portfolio'].mean() / sddr
+        sr = np.sqrt(sf) * (daily_return['portfolio'].mean() - rfr) / sddr
         ev = df['portfolio'][-1]
         return (cr, adr, sddr, sr, ev)
