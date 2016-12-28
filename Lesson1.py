@@ -13,14 +13,14 @@ class UdaCity_MLT(unittest.TestCase):
         plt.show()
 
     def test_run2(self):
-        start_date='2016-12-01'
-        end_date='2016-12-15'
+        start_date='2010-12-01'
+        end_date='2010-12-15'
         dates=pd.date_range(start_date,end_date)
         df1=pd.DataFrame(index=dates)
         #print(df1)
 
         #read SPY data
-        ds_spy = pd.read_csv('data/spy.csv', index_col='Date',
+        ds_spy = pd.read_csv('data/SPY.csv', index_col='Date',
                              parse_dates=True, usecols=['Date', 'Adj Close'],
                              na_values=['nan'])
 
@@ -63,7 +63,7 @@ class UdaCity_MLT(unittest.TestCase):
 
     def test_1_6(self):
         daily_returns = self.get_daily_returns()
-        self.plot_data(daily_returns, title='Daily returns') #, ylabel='Daily returns')
+        stocks().plot_data(daily_returns, title='Daily returns') #, ylabel='Daily returns')
 
         daily_returns.hist(bins=20)
         plt.show()
@@ -91,25 +91,14 @@ class UdaCity_MLT(unittest.TestCase):
         df = df.div(df.ix[0]) #http://stackoverflow.com/questions/12007406/python-pandas-divide-dataframe-by-first-row
         df = 1000000 * df.multiply([0.4,0.4,0.1,0.1]) #allocations
         daily_port_vals = df.sum(axis=1)
-        self.plot_data(daily_port_vals)
+        s.plot_data(daily_port_vals)
 
-    def plot_data(self, df, title="Stock prices"):
-        """Plot stock prices with a custom title and meaningful axis labels."""
-        ax = df.plot(title=title, fontsize=12)
-        ax.set_xlabel("Date")
-        ax.set_ylabel("Price")
-        plt.show()
-
-    def compute_daily_returns(self, df):
-        """
-        compute daily returns
-        :param df:
-        :return:
-        """
-        daily_returns = df.copy()
-        daily_returns[1:] = (df[1:] / df[:-1].values) - 1
-        daily_returns.ix[0, :] = 0 # set daily returns for row 0 to 0
-        return daily_returns
+    def test_1_7_sharp_rate(self):
+        #Sharper rate
+        s = stocks()
+        df = s.get_datas(['SPY','MSFT'], pd.date_range('2012-01-01', '2012-12-30'))
+        daily_returns = s.compute_daily_returns(df)
+        s.plot_data(daily_returns)
 
     def get_daily_returns(self):
         s = stocks()
@@ -117,5 +106,5 @@ class UdaCity_MLT(unittest.TestCase):
         symbols = ['SPY', 'XOM', 'GLD']
         df = s.get_datas(symbols,dates)
         #self.plot_data(df)
-        return self.compute_daily_returns(df)
+        return s.compute_daily_returns(df)
     

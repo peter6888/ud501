@@ -5,6 +5,7 @@ import os
 from pandas_datareader import data
 from datetime import datetime
 import pandas as pd
+import matplotlib.pyplot as plt
 
 class stocks(object):
     def __init__(self):
@@ -74,3 +75,21 @@ class stocks(object):
     def symbol_to_path(self, symbol, base_dir="data"):
         """Return CSV file path given ticker symbol."""
         return os.path.join(base_dir, "{}.csv".format(str(symbol)))
+
+    def plot_data(self, df, title="Stock prices"):
+        """Plot stock prices with a custom title and meaningful axis labels."""
+        ax = df.plot(title=title, fontsize=12)
+        ax.set_xlabel("Date")
+        ax.set_ylabel("Price")
+        plt.show()
+
+    def compute_daily_returns(self, df):
+        """
+        compute daily returns
+        :param df:
+        :return:
+        """
+        daily_returns = df.copy()
+        daily_returns[1:] = (df[1:] / df[:-1].values) - 1
+        daily_returns.ix[0, :] = 0 # set daily returns for row 0 to 0
+        return daily_returns

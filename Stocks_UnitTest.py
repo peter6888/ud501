@@ -1,7 +1,7 @@
 import unittest
 from stocks import stocks
 
-class Excercises(unittest.TestCase):
+class Stocks_UnitTest(unittest.TestCase):
     def test_download_data(self):
         symbols = ['MSFT','IBM','SPY','AAPL']
         self.assertIsNotNone(symbols)
